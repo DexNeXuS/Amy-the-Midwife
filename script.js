@@ -242,24 +242,28 @@ setInterval(autoAdvanceCarousels, 5000);
 function createSmallConfetti() {
     const colors = ['#40e0d0', '#ffffff', '#ff69b4'];
     const emojis = ['💙', '⭐', '👶'];
+    const isMobile = window.innerWidth <= 768;
+    const confettiCount = isMobile ? 8 : 15; // Fewer on mobile
     
-    for (let i = 0; i < 15; i++) {
+    for (let i = 0; i < confettiCount; i++) {
         const confetti = document.createElement('div');
+        confetti.className = 'small-confetti-item';
         const isEmoji = Math.random() > 0.5;
         
         confetti.style.position = 'fixed';
         confetti.style.left = Math.random() * 100 + 'vw';
         confetti.style.top = Math.random() * 100 + 'vh';
         confetti.style.pointerEvents = 'none';
-        confetti.style.zIndex = '9999';
+        confetti.style.zIndex = '999'; // Lower z-index
         confetti.style.animation = `smallFall ${Math.random() * 2 + 1}s linear forwards`;
         
         if (isEmoji) {
             confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            confetti.style.fontSize = '1rem';
+            confetti.style.fontSize = isMobile ? '0.8rem' : '1rem';
         } else {
-            confetti.style.width = '6px';
-            confetti.style.height = '6px';
+            const size = isMobile ? '4px' : '6px';
+            confetti.style.width = size;
+            confetti.style.height = size;
             confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             confetti.style.borderRadius = '50%';
         }
@@ -267,8 +271,10 @@ function createSmallConfetti() {
         document.body.appendChild(confetti);
         
         setTimeout(() => {
-            confetti.remove();
-        }, 2000);
+            if (confetti && confetti.parentNode) {
+                confetti.remove();
+            }
+        }, isMobile ? 1500 : 2000);
     }
 }
 
@@ -301,27 +307,34 @@ window.addEventListener('load', () => {
 // Enhanced confetti effect for celebration
 function createConfetti() {
     const colors = ['#40e0d0', '#ffffff', '#ff69b4', '#ffd700', '#ff6b6b', '#4ecdc4'];
-    const confettiCount = 80;
+    const isMobile = window.innerWidth <= 768;
+    const confettiCount = isMobile ? 30 : 60; // Reduce count on mobile
     const emojis = ['💙', '⭐', '👶', '🎉', '💕', '✨'];
+    
+    // Clear any existing confetti first
+    const existingConfetti = document.querySelectorAll('.confetti-item');
+    existingConfetti.forEach(item => item.remove());
     
     for (let i = 0; i < confettiCount; i++) {
         const confetti = document.createElement('div');
+        confetti.className = 'confetti-item'; // Add class for easier cleanup
         const isEmoji = Math.random() > 0.7;
         
         confetti.style.position = 'fixed';
         confetti.style.left = Math.random() * 100 + 'vw';
         confetti.style.top = '-20px';
         confetti.style.pointerEvents = 'none';
-        confetti.style.zIndex = '9999';
-        confetti.style.animation = `fall ${Math.random() * 4 + 3}s linear forwards`;
+        confetti.style.zIndex = '1000'; // Lower z-index
+        confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards`;
         
         if (isEmoji) {
             confetti.textContent = emojis[Math.floor(Math.random() * emojis.length)];
-            confetti.style.fontSize = '1.5rem';
-            confetti.style.animation = `fall ${Math.random() * 4 + 3}s linear forwards, spin ${Math.random() * 2 + 1}s linear infinite`;
+            confetti.style.fontSize = isMobile ? '1rem' : '1.5rem';
+            confetti.style.animation = `fall ${Math.random() * 3 + 2}s linear forwards, spin ${Math.random() * 2 + 1}s linear infinite`;
         } else {
-            confetti.style.width = Math.random() * 8 + 6 + 'px';
-            confetti.style.height = Math.random() * 8 + 6 + 'px';
+            const size = isMobile ? Math.random() * 4 + 3 : Math.random() * 8 + 6;
+            confetti.style.width = size + 'px';
+            confetti.style.height = size + 'px';
             confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
             confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
         }
@@ -329,8 +342,10 @@ function createConfetti() {
         document.body.appendChild(confetti);
         
         setTimeout(() => {
-            confetti.remove();
-        }, 7000);
+            if (confetti && confetti.parentNode) {
+                confetti.remove();
+            }
+        }, isMobile ? 4000 : 5000); // Shorter duration on mobile
     }
 }
 
