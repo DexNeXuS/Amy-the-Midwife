@@ -51,10 +51,10 @@ const observer = new IntersectionObserver((entries) => {
                 entry.target.style.animation = 'fadeInUp 1s ease-out forwards';
             } else if (entry.target.classList.contains('celebration')) {
                 entry.target.style.animation = 'fadeInUp 1s ease-out forwards';
-                // Trigger confetti for celebration section
-                setTimeout(() => {
-                    createConfetti();
-                }, 1000);
+                // Disabled automatic confetti to prevent mobile display issues
+                // setTimeout(() => {
+                //     createConfetti();
+                // }, 1000);
             }
             
             entry.target.style.opacity = '1';
